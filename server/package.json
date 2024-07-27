@@ -11,13 +11,16 @@
     "nodemon": "^3.1.4"
   },
   "name": "clinico",
+  "proxy": "http://localhost:4500",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "client": "npm start --prefix ,/client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "musariaz",
   "license": "MIT"
