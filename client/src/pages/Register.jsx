@@ -1,11 +1,33 @@
 import React from "react";
-import { Form, Input } from "antd";
+import { Form, Input, message } from "antd";
 import "../styles/RegisterStyles.css";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from 'react-hot-toast';
 const Register = () => {
-  function onFinishHandler(values) {
-    console.log(values);
+  const navigate = useNavigate();
+
+
+ async function onFinishHandler(values) {
+  try{
+   const res = await axios.post("http://localhost:4500/api/v1/user/register", values);
+   if(res.data.status === 'success'){
+
+     message.success("User registered successfully");
+     navigate('/login');
+   }
+   else{
+      message.error(res.data.message);
+   }
   }
+  catch(err){
+    console.log(err);
+  }
+   
+  }
+  
+  
   return (
     <div>
       {/* The name property must have the same values as we would define in the model schema*/}
