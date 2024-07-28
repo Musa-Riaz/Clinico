@@ -57,3 +57,29 @@ exports.loginUserController = async (req, res, next) => {
    
     next();
 };
+
+exports.authController = async (req, res, next) =>{
+    try{
+
+        const user = await userModel.findOne({_id: req.body.userid});
+        if(!user) return res.status(400).json({status: 'fail', message: 'User not found'});     
+
+        else{
+            res.status(200).json({
+                status:'success',
+                data:{
+                    name: user.name,
+                    email: user.email
+                }
+            });
+        }
+
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).json({
+            status:'fail',
+            message:'Internal server error'
+        })
+    }
+}
