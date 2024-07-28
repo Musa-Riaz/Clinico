@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const userModel = require("../models/userModel");
-
+const jsonwebtoken = require("jsonwebtoken");
 exports.registerUserController = async (req, res, next) => {
   try {
     const exisitingUser = await userModel.findOne({ email: req.body.email });
@@ -37,4 +37,23 @@ exports.registerUserController = async (req, res, next) => {
   next();
 };
 
-exports.loginUserController = async (req, res) => {};
+exports.loginUserController = async (req, res, next) => {
+
+    try{
+        const user = await userModel.findOne({email: req.body.email});
+        console.log(user)
+        if(!user) return res.status(400).json({status: 'failed', message: 'User not found'});
+    
+        const comparePassword = await bcrypt.compare(req.body.password, user.password);
+        if(!comparePassword) return res.status(200).json({status: 'fail', message: 'Invalid Email or password'});
+    
+        const loginToken =  jsonwebtoken.sign({id:user._id}, process.env.JWT_SECRET, {expiresIn: '1d'});
+        res.status(200).json({status: 'success', token: loginToken});
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).json({status: 'failed', message: 'Internal server error'});
+    }
+   
+    next();
+};
