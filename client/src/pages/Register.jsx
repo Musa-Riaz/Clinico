@@ -3,15 +3,19 @@ import { Form, Input, message } from "antd";
 import "../styles/RegisterStyles.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { showLoading, hideLoading } from "../redux/features/alertSlice";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from 'react-hot-toast';
 const Register = () => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
 
  async function onFinishHandler(values) {
   try{
+    dispatch(showLoading());
    const res = await axios.post("http://localhost:4500/api/v1/user/register", values);
+    dispatch(hideLoading());
    if(res.data.status === 'success'){
 
      message.success("User registered successfully");
@@ -22,6 +26,7 @@ const Register = () => {
    }
   }
   catch(err){
+    dispatch(hideLoading());
     console.log(err);
   }
    

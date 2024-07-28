@@ -2,6 +2,10 @@ import React from 'react'
 import {useEffect} from 'react'
 import axios from 'axios'
 const HomePage = () => {
+
+
+
+
   //login user data
   async function getUserData() {
     try {
@@ -24,9 +28,9 @@ const HomePage = () => {
     getUserData();
   }, [])
   return (
-    <div>
-      HI
-    </div>
+    <h1>
+    HOMEPAGE
+    </h1>
   )
 }
 

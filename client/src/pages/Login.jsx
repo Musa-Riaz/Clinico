@@ -2,17 +2,23 @@ import React from "react";
 import { Form, Input, message } from "antd";
 import "../styles/RegisterStyles.css";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { showLoading, hideLoading } from "../redux/features/alertSlice";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 const Login = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   async function onFinishHandler(values) {
+
     try {
+      dispatch(showLoading());
       const res = await axios.post(
         "http://localhost:4500/api/v1/user/login",
         values
       );
+      dispatch(hideLoading());
       if (res.data.status === "fail") {
         message.error(res.data.message);
       } else if(res.data.status === 'success'){
@@ -22,6 +28,7 @@ const Login = () => {
         console.log(res.data.token);
       }
     } catch (err) {
+      dispatch(hideLoading());
       console.log(err);
       message.error("Something went wrong");
     }

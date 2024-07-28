@@ -4,10 +4,14 @@ import App from "./App";
 // import "antd/dist/antd.css"; // this will import all the styles from antd
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
+import {Provider} from 'react-redux';
+import store from "./redux/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
+  <Provider store={store} >
   <BrowserRouter>
     <App />
   </BrowserRouter>
+  </Provider>
 );
