@@ -19,7 +19,6 @@ const Layout = ({ children }) => {
 
   //rendring menu based on user role
   const SideBarMenu = user?.isAdmin ? adminMenu : userMenu;
-  {console.log(user?.isAdmin)}
   return (
     <>
       <div className="main">
