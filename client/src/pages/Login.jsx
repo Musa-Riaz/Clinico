@@ -18,6 +18,7 @@ const Login = () => {
         "http://localhost:4500/api/v1/user/login",
         values
       );
+      window.location.reload();
       dispatch(hideLoading());
       if (res.data.status === "fail") {
         message.error(res.data.message);
@@ -53,7 +54,7 @@ const Login = () => {
             Not a User? Click Here to Register
           </Link>
           <button className="btn btn-primary" type="submit">
-            Register
+            Login
           </button>
         </Form>
       </div>

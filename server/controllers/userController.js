@@ -41,7 +41,7 @@ exports.loginUserController = async (req, res, next) => {
 
     try{
         const user = await userModel.findOne({email: req.body.email});
-        console.log(user)
+        
         if(!user) return res.status(400).json({status: 'failed', message: 'User not found'});
     
         const comparePassword = await bcrypt.compare(req.body.password, user.password);
@@ -62,15 +62,13 @@ exports.authController = async (req, res, next) =>{
     try{
 
         const user = await userModel.findOne({_id: req.body.userid});
+        user.password = undefined;
         if(!user) return res.status(400).json({status: 'fail', message: 'User not found'});     
-
+        
         else{
             res.status(200).json({
                 status:'success',
-                data:{
-                    name: user.name,
-                    email: user.email
-                }
+                data:user
             });
         }
 
