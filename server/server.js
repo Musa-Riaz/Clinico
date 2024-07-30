@@ -3,6 +3,7 @@ const morgan = require('morgan')
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoutes');
+const adminRoutes = require('./routes/adminRoutes')
 const cors = require('cors');
 
 //configuring the environment variables
@@ -26,7 +27,7 @@ app.use(express.static('public')); // serve static files from the public folder
 
 //routes
 app.use('/api/v1/user', userRoutes);
-
+app.use('/api/v1/admin', adminRoutes);
 
 
 app.listen(process.env.PORT || 4500, ()=>{

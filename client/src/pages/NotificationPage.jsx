@@ -68,14 +68,14 @@ const NotificationPage = () => {
 
   return (
     <Layout>
-      <h4 className='p-3 text-center'></h4>
+      <h4 className='p-3 text-center'>Notifications</h4>
       <Tabs>
         <Tabs.TabPane tab="UnRead" key={0}>
             <div className="d-flex justify-content-end">
                 <h4 className='p-2' onClick={handleMarkAllRead} style={{cursor:"pointer"}}>Mark All Read</h4>
             </div>
             {user?.notifications?.map((notification, index) => (
-                <div className="card" onClick={notification.data.link}>
+                <div className="card" onClick={notification?.data?.link}>
                     <div className="card-text ">
                         {notification.message}
                     </div>
@@ -90,7 +90,7 @@ const NotificationPage = () => {
                 <h4 className='p-2 text-primary' onClick={handleDeleteAllRead} style={{cursor:"pointer"}}>Delete All Read</h4>
             </div>
             {user?.seenNotifications?.map((notification, index) => (
-                <div className="card" onClick={notification.data.link}>
+                <div className="card" onClick={notification?.data?.link}>
                     <div className="card-text">
                         {notification.message}
                     </div>

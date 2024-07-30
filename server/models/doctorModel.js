@@ -32,6 +32,10 @@ const doctorSchema = new mongoose.Schema({
         type:String,
         required:[true, 'Please enter your specialization'],
     },
+    status:{
+        type:String,
+        default:'pending'
+    },
     experience:{
         type:String,
         required:[true, 'Please enter your experience'],

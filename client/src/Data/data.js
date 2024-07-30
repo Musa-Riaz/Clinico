@@ -2,7 +2,7 @@ import { MdHome } from "react-icons/md";
 import { RiFileList2Fill } from "react-icons/ri";
 import { FaUserDoctor } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
-
+import { FaUser } from "react-icons/fa";
 
 
 export const userMenu = [{
@@ -40,8 +40,13 @@ export const adminMenu = [{
 
 {
     name: " Doctor",
-    path:"/doctors",
+    path:"/admin/doctors",
     icon: <FaUserDoctor />
+},
+{
+    name: " Users",
+    path:"/admin/users",
+    icon: <FaUser />
 },
 
 {
