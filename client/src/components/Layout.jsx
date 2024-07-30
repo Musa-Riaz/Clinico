@@ -7,6 +7,11 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {message, Badge} from "antd";
 import { IoLogOut } from "react-icons/io5";
+import { MdHome } from "react-icons/md";
+import { RiFileList2Fill } from "react-icons/ri";
+import { FaUserDoctor } from "react-icons/fa6";
+import { CgProfile } from "react-icons/cg";
+
 const Layout = ({ children }) => {
   const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
@@ -17,8 +22,30 @@ const Layout = ({ children }) => {
     navigate("/login");
   }
 
+
+const doctorMenu  = [{
+    name:"Home",
+    path:"/",
+    icon: <MdHome />
+}, 
+{
+    name:"Appointment",
+    path:"/appointment",
+    icon: <RiFileList2Fill />
+},
+
+
+{
+    name:"Profile",
+    path:`/doctor/profile/:${user?._id}`,
+    icon:<CgProfile />
+}
+
+]
+
+
   //rendring menu based on user role
-  const SideBarMenu = user?.isAdmin ? adminMenu : userMenu;
+  const SideBarMenu = user?.isAdmin ? adminMenu : user?.isDoctor ? doctorMenu : userMenu;
   return (
     <>
       <div className="main">

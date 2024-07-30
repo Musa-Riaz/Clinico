@@ -1,48 +1,91 @@
-import Layout from "../components/Layout";
-import React from "react";
-import { Form, Row, Col, Input, TimePicker, message, Badge } from "antd";
-import {useDispatch, useSelector} from "react-redux";
-import {showLoading, hideLoading} from "../redux/features/alertSlice";
+import React from 'react'
+import Layout from '../../components/Layout'
+import {useState, useEffect} from 'react'
+import { message } from 'antd';
 import axios from 'axios';
+import {useSelector} from "react-redux";
+import { Form, Row, Col, Input, TimePicker, Badge } from "antd";
+import {useDispatch} from "react-redux";
+import {showLoading, hideLoading} from "../../redux/features/alertSlice";
 import { useNavigate } from "react-router-dom";
+import moment from 'moment';
 
-const ApplyDoctor = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const {user} = useSelector(state=> state.user);
+const Profile = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [docInfo, setDocInfo] = useState(null);
+    const {user} = useSelector(state => state.user);
 
 
-  const handleFinish = async (values) => {
 
-    try{
-      dispatch(showLoading());
-      const res = await axios.post("http://localhost:4500/api/v1/user/apply-doctor", {...values, userId: user._id}, {
-        headers:{
-          Authorization: `Bearer ${localStorage.getItem("token")}`
+    const handleFinish = async (values) =>{
+        try{
+            dispatch(showLoading());
+            const res = await axios.post("http://localhost:4500/api/v1/doctor/updateDoctorInfo", {userId: user?._id, ...values, timing:[
+                moment(values.timing[0]).format("HH:mm"),
+                moment(values.timing[1]).format("HH:mm"),
+            ]},{
+                headers:{
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+            dispatch(hideLoading());
+            if(res.data.status ===  'success'){
+                console.log(res.data.data)
+                message.success(res.data.message);
+                navigate('/');
+            }
+            else{
+                message.error(res.data.message);
+            }
+
         }
-      });  
-      dispatch(hideLoading());
-      if(res.data.status === 'success'){
-        message.success("Applied successfully");
-        navigate("/");
-      }
-      else{
-        message.error(res.data.message)
-      }
+        catch(err){
+            dispatch(hideLoading());
+            console.log(err);
+            message.error("Something went wrong");
+        }
     }
-    catch(err){
-      dispatch(hideLoading());
-      console.log(err);
-      message.error("Something went wrong");
-    }
-  
 
-  };
+
+    const getDoctorInfo = async () =>{
+        try{
+
+            const res = await axios.post("http://localhost:4500/api/v1/doctor/getDoctorInfo", {userId: user?._id}, {
+                headers:{
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+
+            if(res.data.status === 'success'){
+            console.log(res.data.data);
+            setDocInfo(res.data.data);
+            }
+            else{
+                message.error(res.data.message);
+            }
+        }
+        catch(err){
+            hideLoading();
+            console.log(err);
+            message.error("Something went wrong");
+        }
+    }
+
+    useEffect(() =>{
+        getDoctorInfo();
+    }, []);
+
+
 
   return (
     <Layout>
-      <h1>Apply Doctor</h1>
-      <Form layout="vertical" onFinish={handleFinish} className="m-3">
+     <h1>Update Profile</h1>
+     {docInfo && (
+<Form layout="vertical" onFinish={handleFinish} className="m-3" initialValues={{...docInfo, timing:[
+    moment(docInfo.timing[0], "HH:mm"),
+    moment(docInfo.timing[1], "HH:mm"),
+]}}>
         <h4 className="">Personal Details</h4>
         <Row gutter={20}>
           <Col xs={24} md={24} lg={8}>
@@ -144,11 +187,13 @@ const ApplyDoctor = () => {
           
         </Row>
         <div className="d-flex justify-content-end mb-3">
-            <button className="btn btn-primary" type="submit">Submit</button>
+            <button className="btn btn-primary" type="submit">Update</button>
         </div>
       </Form>
+     )}
+     
     </Layout>
-  );
-};
+  )
+}
 
-export default ApplyDoctor;
+export default Profile
