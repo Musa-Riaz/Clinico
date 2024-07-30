@@ -5,7 +5,7 @@ import { userMenu, adminMenu } from "../Data/data";
 import { IoIosNotifications } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {message} from "antd";
+import {message, Badge} from "antd";
 import { IoLogOut } from "react-icons/io5";
 const Layout = ({ children }) => {
   const { user } = useSelector((state) => state.user);
@@ -45,7 +45,9 @@ const Layout = ({ children }) => {
           <div className="content">
             <div className="header">
               <div className="header-content">
-                <IoIosNotifications className="header-icon" />
+                <Badge count ={user?.notifications.length} onClick={() => navigate("/notification")} >
+                <IoIosNotifications className="header-icon" style={{cursor:"pointer"}} />
+                </Badge>
                 <NavLink className="header-name" to="/profile">
                   {user?.name}
                 </NavLink>

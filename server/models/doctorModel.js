@@ -50,4 +50,4 @@ const doctorSchema = new mongoose.Schema({
 })
 
 
-module.exports = mongoose.model('doctorModel', doctorSchema)
+module.exports = mongoose.model('doctors', doctorSchema)
