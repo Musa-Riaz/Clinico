@@ -2,6 +2,8 @@ const bcrypt = require("bcryptjs");
 const userModel = require("../models/userModel");
 const jsonwebtoken = require("jsonwebtoken");
 const doctorModel = require("../models/doctorModel");
+const moment = require('moment');
+const appointmentModel = require("../models/appointmentModel");
 exports.registerUserController = async (req, res, next) => {
   try {
     const exisitingUser = await userModel.findOne({ email: req.body.email });
@@ -168,5 +170,76 @@ exports.deleteAllNotificationsController = async (req, res, next) =>{
       status:'fail',
       message:"The was a problem in the Delete Notifications Controller"
     })
+  }
+}
+
+exports.bookAppointmentController =  async (req, res) =>{
+  try{
+    req.body.date = moment(req.body.date, "DD-MM-YYYY").toISOString(); //we are going to format the date to a specific format
+    req.body.timing = moment(req.body.timing, "HH:mm").toISOString(); //we are going to format the timing to a specific format
+    req.body.status = 'pending';
+    await appointmentModel.create(req.body); //we are going to create a new appointment from the values passed from the front end
+    const user = await userModel.findOne({_id: req.body.doctorInfo.userId}); //we are going to find the doctor and send them the notification
+    user.notifications.push({
+      type:"book-appointment",
+      message:`A new appointment from ${req.body.UserInfo.name}` ,
+      link: '/user/appointments'
+
+    });
+    await user.save();
+    res.status(200).json({
+      status:"success",
+      message:"Appointment booked successfully",
+    });
+
+
+  }
+  catch(err){
+    console.log(err);
+    res.status(500).json({
+      status:'fail',
+      message:'Book Appointment Controller error',
+      err
+  });
+}
+
+}
+
+exports.bookingAvailablityController = async (req, res) =>{
+  try{
+
+    const date = moment(req.body.date, "DD-MM-YYYY").toString();
+    const fromTime = moment(req.body.timing, "HH:mm").subtract(1, 'hours').toISOString();
+    const toTime = moment(req.body.timing, "HH:mm").add(1, 'hours').toISOString();
+    const doctorId = req.body.doctorId;
+    const appointments = await appointmentModel.find({doctorId, date, timing:{
+      $gte: fromTime,
+      $lte: toTime
+    }});
+
+    if(appointments.length === 0){
+      res.status(200).json({
+        status:"success",
+        message:"Booking available",
+        data: appointments
+      });
+     
+  }
+  else if(appointments.length > 0){
+    res.status(200).json({
+      status:"fail",
+      message:"Booking not available",
+      data: appointments
+  })
+}
+  
+}
+  catch(err){ console.log(err);
+    res.status(500).json({
+      status:'fail',
+      message:'Booking Availablity Controller error',
+      err
+  });
+   
   }
 }
