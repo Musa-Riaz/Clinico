@@ -243,3 +243,27 @@ exports.bookingAvailablityController = async (req, res) =>{
    
   }
 }
+
+exports.getUserAppointmentsController = async (req, res) =>{
+  try{
+
+    const appointments = await appointmentModel.find({userId: req.body.userId});
+    
+      res.status(200).json({
+        status:"success",
+        message:"Appointments fetched",
+        data: appointments
+      });
+
+
+  }
+  catch(err){
+    console.log(err);
+    res.status(500).json({
+      status:'fail',
+      message:'Get User Appointments Controller error',
+      err
+  });
+}
+
+}

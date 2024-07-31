@@ -12,7 +12,7 @@ export const userMenu = [{
 }, 
 {
     name:"Appointment",
-    path:"/appointment",
+    path:"/appointments",
     icon: <RiFileList2Fill />
 },
 
