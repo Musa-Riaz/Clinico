@@ -1,5 +1,6 @@
+const appointmentModel = require("../models/appointmentModel");
 const doctorModel = require("../models/doctorModel");
-
+const userModel = require("../models/userModel");
 exports.getDoctorInfoController = async (req, res) => {
     try{
 
@@ -98,5 +99,60 @@ exports.getDoctorByIdController = async (req, res) =>{
             message:'There was an error in Get Doctor By Id controller',
             err
         })
+    }
+}
+
+
+exports.getDoctorAppointmentsController =  async (req, res) =>{
+    try{
+
+        const doctor = await doctorModel.findOne({userId: req.body.userId});
+        const appointments = await appointmentModel.find({doctorId: doctor._id});
+        res.status(200).json({
+            status:"success",
+            message:"Got doctor appointments",
+            data: appointments
+        })
+
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).json({
+            status:'fail',
+            message:'There was an error in get doctor appointments controller',
+            err
+    });
+}
+
+}
+
+exports.updateAppointmentStatusController = async (req, res) =>{
+    try{
+
+        const {appointmentId, status} = req.body;
+        const appointment = await appointmentModel.findByIdAndUpdate(appointmentId, {status});
+        const user = await userModel.findOne({_id: appointment.userId}); //we are going to find the doctor and send them the notification
+        user.notifications.push({
+          type:"Status updated",
+          message:`Your appointment status has been updated to ${status}` ,
+          link: '/doctor-appointments'
+    
+        });
+        await user.save();
+
+        res.status(200).json({
+            status:'success',
+            message:'Appointment status updated',
+            data: appointment
+        });
+        
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).json({
+            status:'fail',
+            message:'There was an error in update appointment status controller',
+            err
+        });
     }
 }

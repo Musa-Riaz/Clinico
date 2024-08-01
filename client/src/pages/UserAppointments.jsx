@@ -24,7 +24,6 @@ const UserAppointments = () => {
       );
 
       if (res.data.status === "success") {
-        console.log("This is user data",res.data.data)
         setAppointments(res?.data?.data);
       } else {
         message.error(res.data.message);

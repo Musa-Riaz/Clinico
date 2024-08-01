@@ -30,7 +30,7 @@ const doctorMenu  = [{
 }, 
 {
     name:"Appointment",
-    path:"/appointment",
+    path:"/doctor-appointments",
     icon: <RiFileList2Fill />
 },
 

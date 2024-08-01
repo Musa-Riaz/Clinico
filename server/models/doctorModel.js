@@ -50,7 +50,6 @@ const doctorSchema = new mongoose.Schema({
      }
 
 
-
 })
 
 
