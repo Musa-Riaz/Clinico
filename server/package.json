@@ -20,6 +20,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
+    "build": "cd frontend && npm install && npm run build && cp -R build ../backend/build",
     "server": "nodemon server.js",
     "client": "npm start --prefix ,/client",
     "dev": "concurrently \"npm run server\" \"npm run client\""

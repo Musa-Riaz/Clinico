@@ -17,7 +17,6 @@ exports.registerUserController = async (req, res, next) => {
     const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
-    console.log(hashedPassword);
     const newUser = new userModel({
       name: req.body.name,
       email: req.body.email,

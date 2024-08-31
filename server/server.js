@@ -6,6 +6,7 @@ const userRoutes = require('./routes/userRoutes');
 const adminRoutes = require('./routes/adminRoutes')
 const doctorRoutes = require('./routes/doctorRoutes')
 const cors = require('cors');
+const path = require('path');
 
 //configuring the environment variables
 dotenv.config();
@@ -23,8 +24,12 @@ const app = express();
 app.use(cors());
 app.use(morgan('dev')); // log requests to the console
 app.use(express.json()); // parse JSON bodies
-app.use(express.static('public')); // serve static files from the public folder
+app.use(express.static(path.join(__dirname, "./client/build"))); // serve static files from the public folder
 
+
+app.get("*", function(req, res){
+    res.sendFile(path.join(__dirname, "./client/build/index.html"));
+})
 
 //routes
 app.use('/api/v1/user', userRoutes);
