@@ -9,7 +9,7 @@ const Doctors = () => {
   const handleAccountStatus = async (record, status) =>{
 
     try{
-        const res = await axios.post("http://localhost:4500/api/v1/admin/changeAccountStatus", {doctorId: record._id, status}, {
+        const res = await axios.post(`${window.location.origin}/api/v1/admin/changeAccountStatus`, {doctorId: record._id, status}, {
             headers:{
                 Authorization:`Bearer ${localStorage.getItem("token")}`
             }
@@ -32,7 +32,7 @@ const Doctors = () => {
   const getDoctors = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:4500/api/v1/admin/get-all-doctors",
+        `${window.location.origin}/api/v1/admin/get-all-doctors`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

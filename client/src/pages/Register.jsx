@@ -14,7 +14,7 @@ const Register = () => {
  async function onFinishHandler(values) {
   try{
     dispatch(showLoading());
-   const res = await axios.post("http://localhost:4500/api/v1/user/register", values);
+   const res = await axios.post(`${window.location.origin}/api/v1/user/register`, values);
     dispatch(hideLoading());
    if(res.data.status === 'success'){
 

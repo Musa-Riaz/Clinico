@@ -13,7 +13,7 @@ const HomePage = () => {
   async function getDoctorList() {
     try {
       const res = await axios.get(
-        "http://localhost:4500/api/v1/doctor/getDoctorList",
+        `${window.location.origin}/api/v1/doctor/getDoctorList`,
         
         {
           headers: {

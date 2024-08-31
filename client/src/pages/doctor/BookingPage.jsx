@@ -24,7 +24,7 @@ const BookingPage = () => {
 try{
 
   dispatch(showLoading());
-  const res = await axios.post("http://localhost:4500/api/v1/user/booking-availablity", {
+  const res = await axios.post(`${window.location.origin}/api/v1/user/booking-availablity`, {
     date: date,
     timing: timings,
     doctorId: params.id,
@@ -56,7 +56,7 @@ catch(err){
   const handleBooking = async ()=>{
     try{
       dispatch(showLoading());
-      const res = await axios.post("http://localhost:4500/api/v1/user/book-appointment", {
+      const res = await axios.post(`${window.location.origin}/api/v1/user/book-appointment`, {
         userId: user._id,
         doctorId: params.id,
         UserInfo: user,
@@ -88,7 +88,7 @@ catch(err){
   const getDoctorById = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:4500/api/v1/doctor/getDoctorById/${params.id}`,
+        `${window.location.origin}/api/v1/doctor/getDoctorById/${params.id}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

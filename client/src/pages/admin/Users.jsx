@@ -10,7 +10,7 @@ const Users = () => {
 
         try{
 
-            const res = await axios.get("http://localhost:4500/api/v1/admin/get-all-users", {headers:{
+            const res = await axios.get(`${window.location.origin}/api/v1/admin/get-all-users`, {headers:{
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }});
             if(res.data.status==='success'){

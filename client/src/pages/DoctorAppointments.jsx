@@ -13,7 +13,7 @@ const DoctorAppointments = () => {
   const getDoctorAppointments = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:4500/api/v1/doctor/get-doctor-appointments",
+        `${window.location.origin}/api/v1/doctor/get-doctor-appointments`,
         { userId: user._id },
         {
           headers: {
@@ -34,7 +34,7 @@ const DoctorAppointments = () => {
 
   const handleStatus = async (record,text) =>{
     try{
-        const res = await axios.post("http://localhost:4500/api/v1/doctor/update-appointment-status", {appointmentId: record._id, status: text}, {
+        const res = await axios.post("http://:4500/api/v1/doctor/update-appointment-status", {appointmentId: record._id, status: text}, {
             headers:{
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }

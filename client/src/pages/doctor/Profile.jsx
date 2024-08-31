@@ -21,7 +21,7 @@ const Profile = () => {
     const handleFinish = async (values) =>{
         try{
             dispatch(showLoading());
-            const res = await axios.post("http://localhost:4500/api/v1/doctor/updateDoctorInfo", {userId: user?._id, ...values, timing:[
+            const res = await axios.post(`${window.location.origin}/api/v1/doctor/updateDoctorInfo`, {userId: user?._id, ...values, timing:[
                 moment(values.timing[0]).format("HH:mm"),
                 moment(values.timing[1]).format("HH:mm"),
             ]},{
@@ -51,7 +51,7 @@ const Profile = () => {
     const getDoctorInfo = async () =>{
         try{
 
-            const res = await axios.post("http://localhost:4500/api/v1/doctor/getDoctorInfo", {userId: user?._id}, {
+            const res = await axios.post(`${window.location.origin}/api/v1/doctor/getDoctorInfo`, {userId: user?._id}, {
                 headers:{
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }

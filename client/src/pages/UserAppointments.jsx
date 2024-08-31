@@ -15,7 +15,7 @@ const UserAppointments = () => {
   const getUserAppointments = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:4500/api/v1/user/get-user-appointments", {userId: user._id},{
+        `${window.location.origin}/api/v1/user/get-user-appointments`, {userId: user._id},{
             headers:{
                 Authorization:`Bearer ${localStorage.getItem("token")}`
             }

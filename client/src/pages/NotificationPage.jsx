@@ -16,7 +16,7 @@ const NotificationPage = () => {
 
     try{
         dispatch(showLoading());
-        const res = await axios.post("http://localhost:4500/api/v1/user/get-all-notifications", {userid: user._id}, {
+        const res = await axios.post(`${window.location.origin}/api/v1/user/get-all-notifications`, {userid: user._id}, {
             headers:{
                 Authorization : `Bearer ${localStorage.getItem("token")}`
             }
@@ -44,7 +44,7 @@ const NotificationPage = () => {
     try{
 
         dispatch(showLoading());
-        const res = await axios.post("http://localhost:4500/api/v1/user/delete-all-notifications", {userid: user._id}, {
+        const res = await axios.post(`${window.location.origin}/api/v1/user/delete-all-notifications`, {userid: user._id}, {
             headers:{
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
