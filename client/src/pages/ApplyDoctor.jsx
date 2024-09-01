@@ -39,8 +39,6 @@ const ApplyDoctor = () => {
       console.log(err);
       message.error("Something went wrong");
     }
-  
-
   };
 
   return (
